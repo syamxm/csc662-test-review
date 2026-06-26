@@ -17,7 +17,10 @@ a single port.
 docker compose up --build
 ```
 
-Open http://localhost:8662.
+The container joins the external `proxy-net` network and listens on 8662 — it is
+reached by `nginx-proxy` via its container name (`http://csc662-test-review:8662`), so
+**no host port is published**. For local-only testing, temporarily add a `ports:`
+mapping or use an SSH tunnel.
 
 The SQLite DB is rebuilt from seed on each start — there is no persistent state (quiz
 scores are session-only in React), so the container uses **no volume**.
@@ -49,19 +52,28 @@ then start the server — Express serves `client/dist` directly.
 
 On startup the server checks whether `PORT` is free; if taken it picks the next free
 port and logs the chosen one. Inside the container the default 8662 is always free, so
-the host-published port (fixed by `docker-compose.yml`) stays correct.
+`nginx-proxy` can always reach it at `csc662-test-review:8662`.
 
 ## API
 
 - `GET /api/chapters` — list chapters.
 - `GET /api/chapters/:id` — chapter content plus its questions.
 
-## Deploy (nginx + Cloudflare tunnel)
+## Deploy (nginx-proxy + Cloudflare tunnel)
 
-`nginx/csc662-test-review.conf` is a reverse-proxy server block for
-`csc662-test-review.syamxm.com -> http://127.0.0.1:8662`. Place/symlink it into your
-nginx `conf.d` yourself. The Cloudflare tunnel is configured separately and only needs
-the app listening on the published port.
+The app joins the shared external `proxy-net` network, the same one used by the
+`nginx-proxy` container. nginx reaches it by container name — no host port needed.
+
+`nginx/csc662-test-review.conf` is the reverse-proxy server block
+(`csc662-test-review.syamxm.com -> http://csc662-test-review:8662`). Copy/symlink it
+into the nginx-proxy `conf.d` (where the other server blocks live) and reload nginx:
+
+```bash
+cp nginx/csc662-test-review.conf ~/nginx/conf.d/
+docker exec nginx-proxy nginx -s reload
+```
+
+The Cloudflare tunnel is configured separately and only needs the proxy reachable.
 
 ## Adding persistence later (optional)
 
