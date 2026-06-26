@@ -15,12 +15,17 @@ export default function Home() {
   return (
     <div>
       <h1>Chapters</h1>
+      <p className="home-intro">Five cram guides, each with a 10-question quiz.</p>
       <ul className="chapter-list">
         {chapters.map((c) => (
           <li key={c.id}>
             <Link to={`/chapter/${c.id}`}>
-              <span className="chapter-number">Chapter {c.number}</span>
-              <span className="chapter-title">{c.title}</span>
+              <span className="chapter-badge">{c.number}</span>
+              <span className="chapter-meta">
+                <span className="chapter-label">Chapter {c.number}</span>
+                <span className="chapter-title">{c.title}</span>
+              </span>
+              <span className="chapter-arrow">→</span>
             </Link>
           </li>
         ))}

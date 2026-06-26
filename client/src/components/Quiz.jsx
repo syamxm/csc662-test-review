@@ -51,14 +51,18 @@ export default function Quiz({ questions, onExit }) {
           <button className={mode === 'mcq' ? 'active' : ''} onClick={() => switchMode('mcq')}>MCQ</button>
           <button className={mode === 'flashcard' ? 'active' : ''} onClick={() => switchMode('flashcard')}>Flashcards</button>
         </div>
-        <div className="score">Score: {score} / {answered}</div>
+        <div className="score">Score <strong>{score}</strong> / {answered}</div>
         <button className="exit" onClick={onExit}>Exit quiz</button>
+      </div>
+
+      <div className="progressbar">
+        <div style={{ width: `${(Math.min(index, questions.length) / questions.length) * 100}%` }} />
       </div>
 
       {done ? (
         <div className="quiz-done">
-          <h2>Done</h2>
-          <p>You scored {score} out of {questions.length}.</p>
+          <h2>Quiz complete</h2>
+          <p className="final-score">{score} / {questions.length}</p>
           <button className="primary" onClick={reset}>Restart</button>
         </div>
       ) : (
@@ -86,7 +90,9 @@ export default function Quiz({ questions, onExit }) {
               </ul>
               {selected !== null && (
                 <div className="explanation">
-                  <strong>{selected === question.correctIndex ? 'Correct' : 'Wrong'}.</strong>
+                  <span className={`verdict ${selected === question.correctIndex ? 'ok' : 'no'}`}>
+                    {selected === question.correctIndex ? '✓ Correct' : '✗ Wrong'}
+                  </span>
                   <ReactMarkdown>{question.explanation}</ReactMarkdown>
                   <button className="primary" onClick={next}>Next</button>
                 </div>

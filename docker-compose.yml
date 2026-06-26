@@ -4,6 +4,10 @@ services:
     container_name: csc662-test-review
     restart: unless-stopped
     environment:
-      PORT: ${PORT:-8662}
-    ports:
-      - "${PORT:-8662}:${PORT:-8662}"
+      PORT: 8662
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
