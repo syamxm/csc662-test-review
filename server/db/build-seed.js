@@ -49,6 +49,29 @@ function sqlStr(s) {
   return "'" + String(s).replace(/'/g, "''") + "'";
 }
 
+function mulberry32(seed) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Deterministic Fisher-Yates so builds are reproducible; seed varies per question
+// to spread the correct answer across positions.
+function shuffleOptions(opts, correctIndex, seed) {
+  const rng = mulberry32(seed);
+  const correctText = opts[correctIndex];
+  const shuffled = opts.slice();
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return [shuffled, shuffled.indexOf(correctText)];
+}
+
 const out = [];
 out.push('BEGIN TRANSACTION;');
 out.push('DELETE FROM questions;');
@@ -56,6 +79,7 @@ out.push('DELETE FROM chapters;');
 out.push("DELETE FROM sqlite_sequence WHERE name IN ('chapters','questions');");
 out.push('');
 
+let questionSeed = 1;
 for (const variant of variants) {
   for (let number = 1; number <= 5; number++) {
     const raw = fs.readFileSync(path.join(variant.dir, `CHAPTER${number}.md`), 'utf8');
@@ -72,7 +96,7 @@ for (const variant of variants) {
     );
 
     for (let i = 0; i < prompts.length; i++) {
-      const [opts, correctIndex] = options[i];
+      const [opts, correctIndex] = shuffleOptions(...options[i], (questionSeed++ * 40503) >>> 0);
       const prompt = prompts[i].text.replace(/^\*Applied Question:\*\s*/, '');
       const explanation = answers[i].text;
       out.push(
