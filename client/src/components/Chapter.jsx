@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
 import { fetchChapter } from '../api.js';
 import Quiz from './Quiz.jsx';
+import ChapterSections from './ChapterSections.jsx';
 
 export default function Chapter() {
   const { id } = useParams();
@@ -27,12 +27,16 @@ export default function Chapter() {
         <Quiz questions={chapter.questions} onExit={() => setQuizOpen(false)} />
       ) : (
         <>
-          <article className="markdown">
-            <ReactMarkdown>{chapter.content_md}</ReactMarkdown>
-          </article>
-          <button className="primary" onClick={() => setQuizOpen(true)}>
-            Start Quiz ({chapter.questions.length} questions)
-          </button>
+          <ChapterSections content={chapter.content_md} />
+          <div className="quiz-cta">
+            <div>
+              <strong>Ready to test yourself?</strong>
+              <p>{chapter.questions.length} questions · MCQ or flashcards</p>
+            </div>
+            <button className="primary" onClick={() => setQuizOpen(true)}>
+              Start Quiz
+            </button>
+          </div>
         </>
       )}
     </div>
