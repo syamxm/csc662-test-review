@@ -1,0 +1,276 @@
+@font-face {
+  font-family: 'JetBrains Mono Nerd';
+  src: url('/fonts/JetBrainsMonoNerd-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono Nerd';
+  src: url('/fonts/JetBrainsMonoNerd-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root[data-theme='light'] {
+  --bg: #f5f1e8;
+  --surface: #fbf8f1;
+  --border: #e0d8c8;
+  --text: #3a3530;
+  --muted: #7a7166;
+  --accent: #5b7553;
+  --accent-text: #fbf8f1;
+  --correct-bg: #dce8d2;
+  --correct-border: #6b8a5e;
+  --wrong-bg: #efd9d3;
+  --wrong-border: #b56b56;
+}
+
+:root[data-theme='dark'] {
+  --bg: #1f2421;
+  --surface: #2a302c;
+  --border: #3c443e;
+  --text: #d6d3cb;
+  --muted: #9a958a;
+  --accent: #8aa67e;
+  --accent-text: #1f2421;
+  --correct-bg: #2f3d2c;
+  --correct-border: #6b8a5e;
+  --wrong-bg: #3d2c28;
+  --wrong-border: #b56b56;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono Nerd', ui-monospace, monospace;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.theme-toggle,
+.exit {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.chapter-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.chapter-list a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.chapter-list a:hover {
+  border-color: var(--accent);
+}
+
+.chapter-number {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.chapter-title {
+  font-weight: 700;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  text-decoration: none;
+}
+
+.markdown {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.markdown code {
+  background: var(--bg);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+button.primary {
+  margin-top: 1.25rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.quiz-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.mode-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mode-toggle button {
+  background: var(--surface);
+  border: none;
+  color: var(--text);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mode-toggle button.active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.score {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.progress {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+}
+
+.prompt {
+  font-weight: 700;
+  margin-top: 0;
+}
+
+.options {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.option {
+  width: 100%;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.7rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.option:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.option.correct {
+  background: var(--correct-bg);
+  border-color: var(--correct-border);
+}
+
+.option.wrong {
+  background: var(--wrong-bg);
+  border-color: var(--wrong-border);
+}
+
+.explanation {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.self-grade {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.grade-right,
+.grade-wrong {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  border: 1px solid var(--border);
+}
+
+.grade-right {
+  background: var(--correct-bg);
+  border-color: var(--correct-border);
+  color: var(--text);
+}
+
+.grade-wrong {
+  background: var(--wrong-bg);
+  border-color: var(--wrong-border);
+  color: var(--text);
+}
+
+.error {
+  color: var(--wrong-border);
+}

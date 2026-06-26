@@ -1,0 +1,14 @@
+{
+  "name": "csc662-server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build-seed": "node db/build-seed.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "express": "^4.21.2"
+  }
+}
