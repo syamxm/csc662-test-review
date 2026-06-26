@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS chapters (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  number INTEGER NOT NULL UNIQUE,
+  number INTEGER NOT NULL,
   title TEXT NOT NULL,
-  content_md TEXT NOT NULL
+  variant TEXT NOT NULL,
+  content_md TEXT NOT NULL,
+  UNIQUE (number, variant)
 );
 
 CREATE TABLE IF NOT EXISTS questions (
