@@ -61,6 +61,106 @@
   --sec-mistakes: #cc8a76;
 }
 
+:root[data-theme='pink'] {
+  --bg: #fbf0f3;
+  --surface: #fff6f8;
+  --surface-2: #f6e2e8;
+  --border: #efd3db;
+  --text: #4a3942;
+  --muted: #8a6f78;
+  --accent: #c25e84;
+  --accent-hover: #ab4f72;
+  --accent-text: #fff6f8;
+  --correct-bg: #e3ecdb;
+  --correct-border: #6b8a5e;
+  --correct-text: #3c5132;
+  --wrong-bg: #f7d9de;
+  --wrong-border: #c25563;
+  --wrong-text: #872d39;
+  --shadow: 0 1px 2px rgba(74, 57, 66, 0.07), 0 4px 12px rgba(74, 57, 66, 0.06);
+  --ring: rgba(194, 94, 132, 0.35);
+  --sec-overview: #c25e84;
+  --sec-terms: #8a6f9c;
+  --sec-models: #b07d56;
+  --sec-points: #a8863f;
+  --sec-mistakes: #c25563;
+}
+
+:root[data-theme='lavender'] {
+  --bg: #1e1b29;
+  --surface: #2a2540;
+  --surface-2: #352d4d;
+  --border: #423a5e;
+  --text: #ddd6ec;
+  --muted: #9a90b5;
+  --accent: #b39ddb;
+  --accent-hover: #c4b3e4;
+  --accent-text: #1e1b29;
+  --correct-bg: #2d3a2f;
+  --correct-border: #8bbf8e;
+  --correct-text: #b6d9b8;
+  --wrong-bg: #3b2a31;
+  --wrong-border: #d98a92;
+  --wrong-text: #ecb3b9;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.28), 0 4px 14px rgba(0, 0, 0, 0.25);
+  --ring: rgba(179, 157, 219, 0.4);
+  --sec-overview: #b39ddb;
+  --sec-terms: #8fb3e0;
+  --sec-models: #d0b08a;
+  --sec-points: #e0c97a;
+  --sec-mistakes: #e0a0a8;
+}
+
+:root[data-theme='latte'] {
+  --bg: #e6e9ef;
+  --surface: #eff1f5;
+  --surface-2: #dce0e8;
+  --border: #bcc0cc;
+  --text: #4c4f69;
+  --muted: #6c6f85;
+  --accent: #8839ef;
+  --accent-hover: #7a2fd6;
+  --accent-text: #eff1f5;
+  --correct-bg: #dde8d4;
+  --correct-border: #40a02b;
+  --correct-text: #386e1f;
+  --wrong-bg: #f4d8de;
+  --wrong-border: #d20f39;
+  --wrong-text: #9c0f30;
+  --shadow: 0 1px 2px rgba(76, 79, 105, 0.07), 0 4px 12px rgba(76, 79, 105, 0.06);
+  --ring: rgba(136, 57, 239, 0.3);
+  --sec-overview: #40a02b;
+  --sec-terms: #1e66f5;
+  --sec-models: #fe640b;
+  --sec-points: #df8e1d;
+  --sec-mistakes: #d20f39;
+}
+
+:root[data-theme='mocha'] {
+  --bg: #1e1e2e;
+  --surface: #313244;
+  --surface-2: #45475a;
+  --border: #585b70;
+  --text: #cdd6f4;
+  --muted: #a6adc8;
+  --accent: #cba6f7;
+  --accent-hover: #d4b8f9;
+  --accent-text: #1e1e2e;
+  --correct-bg: #2f3d34;
+  --correct-border: #a6e3a1;
+  --correct-text: #a6e3a1;
+  --wrong-bg: #3d2934;
+  --wrong-border: #f38ba8;
+  --wrong-text: #f38ba8;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.28);
+  --ring: rgba(203, 166, 247, 0.4);
+  --sec-overview: #a6e3a1;
+  --sec-terms: #89b4fa;
+  --sec-models: #fab387;
+  --sec-points: #f9e2af;
+  --sec-mistakes: #f38ba8;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -113,19 +213,79 @@ button {
   letter-spacing: -0.01em;
 }
 
-.theme-toggle {
+.theme-switcher {
+  position: relative;
+}
+
+.theme-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 0.45rem 0.85rem;
+  padding: 0.45rem 0.8rem;
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
   transition: border-color 0.15s, background 0.15s;
 }
 
-.theme-toggle:hover {
+.theme-trigger:hover {
   border-color: var(--accent);
+}
+
+.theme-trigger svg {
+  color: var(--accent);
+}
+
+.theme-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.4rem);
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  min-width: 13rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  z-index: 20;
+}
+
+.theme-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0.5rem 0.6rem;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.theme-menu button:hover {
+  background: var(--surface-2);
+}
+
+.theme-menu button.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.theme-menu button svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.theme-menu .check {
+  margin-left: auto;
+  color: var(--accent);
 }
 
 .content {
